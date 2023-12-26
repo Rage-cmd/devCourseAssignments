@@ -43,7 +43,85 @@
   const bodyParser = require('body-parser');
   
   const app = express();
-  
   app.use(bodyParser.json());
+
+  let todos = [];
+  let idCount = 1;
+
+  app.get('/todos', (req, res) => {
+    res.status(200).json(todos)
+  })
+
+  app.get('/todos/:id',(req, res) => {
+    const id = req.params.id;
+    const todoIndex = todos.findIndex((data) => data.id == id);
+    if(todoIndex == -1) {
+      res.sendStatus(404);
+      return;
+    }
+    
+    res.status(200).json(todos[todoIndex]);
+  })
+  
+  app.post('/todos', (req, res) => {
+    const newTodo = req.body;
+    newTodo.id = idCount++;
+    todos.push(newTodo);
+    res.status(201).json({
+        id:newTodo.id,
+    })
+  })
+
+  app.put('/todos/:id', (req, res) => {
+    let id = req.params.id;
+    let updatedTodo = req.body;
+    let todoIndex = todos.findIndex((data) => data.id == id);
+    if(todoIndex == -1) {
+      res.sendStatus(404);
+      return;
+    }
+
+    for(let key in updatedTodo) {
+      if(todos[todoIndex].hasOwnProperty(key)) {
+        todos[todoIndex][key] = updatedTodo[key];
+      }
+    }
+
+    res.sendStatus(200);
+  })
+
+  app.delete('/todos/:id', (req, res) => {
+    const id = req.params.id;
+    const todoIndex = todos.findIndex((data) => data.id == id);
+
+    if(todoIndex == -1){
+      res.sendStatus(404);
+      return;
+    }
+    todos = todos.filter((data) => data.id != id);
+    res.sendStatus(200)
+  })
+
+  app.use(function(req, res, next){
+    res.sendStatus(404);
+});
+
+  // app.listen(3000)
   
   module.exports = app;
+
+  /*
+
+  {
+    "title":"Buy a mattress",
+    "description": "should be of queen size",
+    "completed": false
+}
+
+{
+    "title":"Wash shoes",
+    "description": "buy shoe cleaner",
+    "completed": false
+}
+
+  */

@@ -13,7 +13,7 @@ describe('Todo API', () => {
     if (globalServer) {
         globalServer.close();
     }
-    globalServer = server.listen(3000);
+    globalServer = server.listen(0);
     done()
   });
 
@@ -44,6 +44,7 @@ describe('Todo API', () => {
 
       res.on('end', () => {
         const response = JSON.parse(data);
+        console.log(response)
         expect(response.id).toBeTruthy();
         createdTodoId = response.id;
         done();
@@ -65,6 +66,7 @@ describe('Todo API', () => {
 
       res.on('end', () => {
         const todos = JSON.parse(data);
+        console.log(todos, Array.isArray(todos))
         expect(Array.isArray(todos)).toBe(true);
         expect(todos.length).toBe(1);
         expect(todos[0].title).toBe(todo.title);
