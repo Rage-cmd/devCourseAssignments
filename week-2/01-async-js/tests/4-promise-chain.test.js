@@ -3,6 +3,7 @@ const calculateTime = require("../hard (promises)/4-promise-chain");
 describe("calculateTime function", () => {
   test("calculates time 1", async () => {
     const difference = await calculateTime(1, 2, 3);
+    // console.log(difference)
     expect(difference).toBeGreaterThanOrEqual(6000);
     expect(difference).toBeLessThan(7000);
   }, 7000);
