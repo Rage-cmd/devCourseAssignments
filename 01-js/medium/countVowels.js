@@ -7,6 +7,24 @@
 
 function countVowels(str) {
     // Your code here
+
+    let countOfVowels = 0;
+
+    for(let i=0; i < str.length; i++) {
+      // console.log(str[i]);
+      let currentChar = str[i].toLowerCase();
+      if(currentChar == 'a' || 
+         currentChar == 'e' ||
+         currentChar == 'i' ||
+         currentChar == 'o' ||
+         currentChar == 'u') {
+          countOfVowels += 1;
+      }
+    }
+
+    return countOfVowels;
 }
+
+console.log(countVowels('countVOweLs'));
 
 module.exports = countVowels;

@@ -6,7 +6,21 @@
 */
 
 function findLargestElement(numbers) {
-    
+    if(numbers.length <= 0) {
+        return undefined;
+    }
+
+    let result = numbers[0];
+    for (let i = 0; i< numbers.length; ++i) {
+        // console.log(numbers[i], result)
+        if (numbers[i] >= result) {
+            result = numbers[i];
+        }
+    }
+    return result;
 }
+
+// console.log(findLargestElement([1,2,6,4,-1]));
+// console.log(findLargestElement([-1,-2,-6,-4]));
 
 module.exports = findLargestElement;
